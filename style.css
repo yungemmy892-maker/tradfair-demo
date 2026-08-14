@@ -1071,6 +1071,17 @@ section {
   }
 }
 
+/* Ensure product grid stacks to a single column on small mobile screens */
+@media (max-width: 420px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .product-card {
+    margin: 0 auto;
+  }
+}
+
 /* ===================== WHOLESALE ===================== */
 .wholesale {
   background: var(--charcoal);
