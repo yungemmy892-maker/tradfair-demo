@@ -1384,8 +1384,12 @@ section {
   margin-bottom: 16px;
 }
 .testi-stars svg {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  flex: 0 0 16px;
+  stroke: none;
+  fill: currentColor;
 }
 .testi-card p.quote {
   font-size: 15px;
