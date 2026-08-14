@@ -2025,3 +2025,31 @@ section {
     padding: 28px 22px 32px;
   }
 }
+
+/* Mobile modal alignment improvements */
+@media (max-width: 560px) {
+  .modal-overlay {
+    align-items: flex-start; /* avoid vertical centering when keyboard or small viewport present */
+    padding: 12px 10px 18px;
+  }
+  .product-modal {
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 40px);
+    margin: 8vh auto 0; /* place modal slightly lower to avoid top UI overlap */
+    border-radius: 10px;
+    transform: none;
+    overflow: auto;
+  }
+  .modal-visual {
+    padding: 10% 12%;
+    min-height: 160px;
+  }
+  .modal-info {
+    padding: 18px 16px 20px;
+  }
+  .modal-close {
+    top: 10px;
+    right: 10px;
+  }
+}
