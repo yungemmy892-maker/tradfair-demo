@@ -2084,44 +2084,51 @@ section {
   }
 
   .modal-visual {
-    min-height: 180px;
-    padding: 8% 10%;
+    min-height: 140px;
+    height: 140px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .modal-visual .bottle-svg {
-    max-width: 220px;
+    width: 180px;
+    max-width: 180px;
+    max-height: 130px;
   }
 
   .modal-info {
-    padding: 20px 16px 32px;
+    padding: 18px 16px 28px;
   }
 
   .modal-info h2 {
-    font-size: 26px;
+    font-size: 25px;
   }
 
   .modal-desc {
+    margin-top: 12px;
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.55;
   }
 
   .modal-size-row {
-    margin-top: 16px;
+    margin-top: 14px;
   }
 
   .modal-price-block {
-    margin-top: 16px;
+    margin-top: 14px;
   }
 
   .modal-qty-row {
-    margin-top: 18px;
+    margin-top: 16px;
   }
 
   /* Make action buttons comfortable and optionally sticky */
   .modal-actions {
     display: flex;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 16px;
     padding-bottom: env(safe-area-inset-bottom, 16px);
     background: transparent;
     position: sticky;
