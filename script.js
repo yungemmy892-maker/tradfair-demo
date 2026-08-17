@@ -27,6 +27,7 @@
 
   const PRODUCTS = [{
     id: "oud-royale",
+    image: "https://cdn.pixabay.com/photo/2017/03/08/13/26/attar-2126745_1280.jpg",
     name: "Oud Royale",
     category: "men",
     type: "Eau de Parfum",
@@ -44,6 +45,7 @@
     desc: "A bold, resinous oud layered with warm saffron and smoky amber. An assertive signature scent with excellent projection and lasting power — a consistent favourite with resellers."
   }, {
     id: "velvet-rose",
+    image: "https://cdn.pixabay.com/photo/2017/10/03/12/07/bottle-2812214_1280.jpg",
     name: "Velvet Rose",
     category: "women",
     type: "Eau de Parfum",
@@ -61,6 +63,7 @@
     desc: "A romantic bouquet of fresh rose and peony, softened with a gentle musk base. Elegant and wearable from day to evening."
   }, {
     id: "blue-ocean",
+    image: "https://cdn.pixabay.com/photo/2019/09/13/07/31/bottle-4473322_1280.jpg",
     name: "Blue Ocean",
     category: "unisex",
     type: "Eau de Parfum",
@@ -78,6 +81,7 @@
     desc: "A crisp aquatic fragrance with citrus top notes over a clean driftwood base. Fresh, versatile and easy to wear daily."
   }, {
     id: "amber-noir",
+    image: "https://cdn.pixabay.com/photo/2017/04/18/14/35/perfume-2239285_1280.jpg",
     name: "Amber Noir",
     category: "men",
     type: "Eau de Parfum",
@@ -95,6 +99,7 @@
     desc: "A rich, smoky amber deepened with tobacco leaf and dark vanilla. Confident and long-lasting — built for cooler evenings."
   }, {
     id: "musk-essence",
+    image: "https://cdn.pixabay.com/photo/2017/06/08/22/15/essential-oils-2385072_1280.jpg",
     name: "Musk Essence",
     category: "oils",
     type: "Perfume Oil",
@@ -112,6 +117,7 @@
     desc: "A concentrated, alcohol-free musk oil with soft sandalwood undertones. Long-wearing and skin-close — a favourite for reselling in small quantities."
   }, {
     id: "vanilla-elixir",
+    image: "https://cdn.pixabay.com/photo/2017/03/14/11/36/perfume-2142792_1280.jpg",
     name: "Vanilla Elixir",
     category: "women",
     type: "Eau de Parfum",
@@ -129,6 +135,7 @@
     desc: "A warm gourmand blend of vanilla, caramel and tonka bean. Sweet without being heavy — a comforting everyday signature."
   }, {
     id: "royal-oud",
+    image: "https://cdn.pixabay.com/photo/2017/08/02/23/40/perfume-2574073_1280.jpg",
     name: "Royal Oud",
     category: "men",
     type: "Eau de Parfum",
@@ -146,6 +153,7 @@
     desc: "Our most premium oud blend, layered with rose and soft leather. Deep, opulent and unmistakably luxurious."
   }, {
     id: "intense-homme",
+    image: "https://cdn.pixabay.com/photo/2016/01/31/13/30/perfumes-1171391_1280.jpg",
     name: "Intense Homme",
     category: "men",
     type: "Eau de Parfum",
@@ -163,6 +171,7 @@
     desc: "A sharp, spiced opening of black pepper settling into earthy vetiver and oakmoss. Bold and distinctly masculine."
   }, {
     id: "citrus-burst",
+    image: "https://cdn.pixabay.com/photo/2016/07/13/11/55/spray-1514264_1280.jpg",
     name: "Citrus Burst",
     category: "sprays",
     type: "Body Spray",
@@ -180,6 +189,7 @@
     desc: "A bright, energising citrus spray with a cooling hint of mint. Ideal for daily freshening and fast-moving retail shelves."
   }, {
     id: "sandal-mist",
+    image: "https://cdn.pixabay.com/photo/2017/06/08/22/17/essential-oils-2385087_1280.jpg",
     name: "Sandal Mist",
     category: "oils",
     type: "Perfume Oil",
@@ -215,70 +225,20 @@
   }];
 
   /* ===================== HELPERS ===================== */
-  let uid = 0;
 
-  function shade(hex, percent) {
-    const num = parseInt(hex.replace('#', ''), 16);
-    let r = (num >> 16) + Math.round(255 * percent);
-    let g = ((num >> 8) & 0x00FF) + Math.round(255 * percent);
-    let b = (num & 0x0000FF) + Math.round(255 * percent);
-    r = Math.max(Math.min(255, r), 0);
-    g = Math.max(Math.min(255, g), 0);
-    b = Math.max(Math.min(255, b), 0);
-    return '#' + (0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1);
+  /* Returns a smaller Pixabay CDN rendition (e.g. _640) of a product's
+     full-size (_1280) image, for lighter, faster-loading thumbnails
+     on cards and in the cart. Falls back to the original URL if the
+     pattern isn't recognised. */
+  function imgSize(url, size) {
+    if (!url) return url;
+    return url.replace(/_1280\.(jpg|jpeg|png)$/i, '_' + size + '.$1');
   }
 
-  function bottleSVG(opts) {
-    const shape = opts.shape,
-      liquid = opts.liquid,
-      cap = opts.cap,
-      initial = (opts.initial || "T").charAt(0).toUpperCase();
-    const id = "g" + (uid++);
-    const light = shade(liquid, 0.28),
-      dark = shade(liquid, -0.18);
-    const grad = '<linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + light + '"/><stop offset="1" stop-color="' + dark + '"/></linearGradient>';
-    let body = "";
-    if (shape === "tall") {
-      body = '<ellipse cx="100" cy="298" rx="52" ry="10" fill="rgba(20,15,10,.14)"/>' +
-        '<rect x="42" y="118" width="116" height="168" rx="16" fill="url(#' + id + ')" stroke="rgba(20,15,10,.18)"/>' +
-        '<path d="M70 118 L60 78 Q60 68 72 68 L128 68 Q140 68 140 78 L130 118 Z" fill="url(#' + id + ')" opacity="0.85" stroke="rgba(20,15,10,.15)"/>' +
-        '<rect x="86" y="40" width="28" height="34" rx="5" fill="' + cap + '"/>' +
-        '<rect x="60" y="186" width="80" height="28" rx="2" fill="none" stroke="' + cap + '" stroke-width="1.5" opacity="0.85"/>' +
-        '<text x="100" y="205" text-anchor="middle" font-family="Fraunces, serif" font-size="16" fill="' + cap + '" opacity="0.9">' + initial + '</text>' +
-        '<rect x="56" y="130" width="10" height="140" fill="#fff" opacity="0.14" transform="skewX(-8)"/>';
-    } else if (shape === "flacon") {
-      body = '<ellipse cx="100" cy="292" rx="56" ry="10" fill="rgba(20,15,10,.14)"/>' +
-        '<path d="M50 160 Q42 160 42 190 L42 250 Q42 282 100 282 Q158 282 158 250 L158 190 Q158 160 150 160 Z" fill="url(#' + id + ')" stroke="rgba(20,15,10,.18)"/>' +
-        '<path d="M78 160 L70 100 Q70 88 84 88 L116 88 Q130 88 130 100 L122 160 Z" fill="url(#' + id + ')" opacity="0.85" stroke="rgba(20,15,10,.15)"/>' +
-        '<rect x="84" y="56" width="32" height="34" rx="10" fill="' + cap + '"/>' +
-        '<circle cx="100" cy="212" r="26" fill="none" stroke="' + cap + '" stroke-width="1.5" opacity="0.85"/>' +
-        '<text x="100" y="218" text-anchor="middle" font-family="Fraunces, serif" font-size="16" fill="' + cap + '" opacity="0.9">' + initial + '</text>' +
-        '<rect x="52" y="172" width="10" height="96" fill="#fff" opacity="0.14" transform="skewX(-6)"/>';
-    } else if (shape === "angular") {
-      body = '<ellipse cx="100" cy="296" rx="54" ry="10" fill="rgba(20,15,10,.14)"/>' +
-        '<polygon points="46,140 100,124 154,140 158,270 130,286 70,286 42,270" fill="url(#' + id + ')" stroke="rgba(20,15,10,.18)"/>' +
-        '<polygon points="46,140 100,124 154,140 145,150 100,138 55,150" fill="#fff" opacity="0.1"/>' +
-        '<path d="M82 124 L74 84 Q74 74 86 74 L114 74 Q126 74 126 84 L118 124 Z" fill="url(#' + id + ')" opacity="0.85" stroke="rgba(20,15,10,.15)"/>' +
-        '<rect x="82" y="46" width="36" height="30" rx="4" fill="' + cap + '"/>' +
-        '<text x="100" y="216" text-anchor="middle" font-family="Fraunces, serif" font-size="16" fill="' + cap + '" opacity="0.9">' + initial + '</text>' +
-        '<polygon points="50,150 60,150 66,260 54,268" fill="#fff" opacity="0.12"/>';
-    } else if (shape === "dropper") {
-      body = '<ellipse cx="100" cy="270" rx="42" ry="9" fill="rgba(20,15,10,.14)"/>' +
-        '<path d="M62 170 Q58 170 58 200 Q58 250 100 250 Q142 250 142 200 Q142 170 138 170 Z" fill="url(#' + id + ')" stroke="rgba(20,15,10,.18)"/>' +
-        '<rect x="88" y="60" width="24" height="112" fill="' + cap + '" opacity="0.94"/>' +
-        '<ellipse cx="100" cy="58" rx="16" ry="10" fill="' + cap + '"/>' +
-        '<rect x="97" y="168" width="6" height="30" fill="' + dark + '"/>' +
-        '<text x="100" y="216" text-anchor="middle" font-family="Fraunces, serif" font-size="14" fill="#fff" opacity="0.9">' + initial + '</text>';
-    } else if (shape === "spray") {
-      body = '<ellipse cx="100" cy="296" rx="46" ry="10" fill="rgba(20,15,10,.14)"/>' +
-        '<rect x="56" y="110" width="88" height="180" rx="30" fill="url(#' + id + ')" stroke="rgba(20,15,10,.18)"/>' +
-        '<rect x="78" y="76" width="44" height="40" rx="8" fill="' + cap + '"/>' +
-        '<rect x="94" y="56" width="12" height="24" rx="4" fill="' + cap + '"/>' +
-        '<rect x="90" y="46" width="6" height="16" rx="2" fill="' + dark + '"/>' +
-        '<text x="100" y="210" text-anchor="middle" font-family="Fraunces, serif" font-size="16" fill="#fff" opacity="0.9">' + initial + '</text>' +
-        '<rect x="66" y="122" width="10" height="150" fill="#fff" opacity="0.14" transform="skewX(-6)"/>';
-    }
-    return '<svg viewBox="0 0 200 320" class="bottle-svg" role="img" aria-hidden="true"><defs>' + grad + '</defs>' + body + '</svg>';
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function(ch) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
+    });
   }
 
   function starIcon(filled) {
@@ -390,7 +350,7 @@
     return '<div class="product-card reveal" data-id="' + p.id + '">' +
       '<div class="pc-visual" style="cursor:pointer;">' +
       '<div class="pc-badges">' + badges.join("") + '</div>' +
-      bottleSVG({ shape: p.shape, liquid: p.liquid, cap: p.cap, initial: p.name }) +
+      '<img class="pc-img" src="' + imgSize(p.image, 640) + '" alt="' + escapeHtml(p.name) + ' — ' + escapeHtml(p.type) + '" loading="lazy" decoding="async" width="640" height="640">' +
       '<div class="pc-quick"><button class="pc-quick-btn">Quick View</button></div>' +
       '</div>' +
       '<div class="pc-body">' +
@@ -491,7 +451,7 @@
       const tier = getTier(c.qty);
       const unit = unitPriceForQty(p.price, c.qty);
       return '<div class="cart-item">' +
-        '<div class="ci-thumb">' + bottleSVG({ shape: p.shape, liquid: p.liquid, cap: p.cap, initial: p.name }) + '</div>' +
+        '<div class="ci-thumb"><img src="' + imgSize(p.image, 640) + '" alt="' + escapeHtml(p.name) + '" loading="lazy" decoding="async" width="64" height="64"></div>' +
         '<div class="ci-body">' +
         '<div class="ci-name">' + p.name + '</div>' +
         '<div class="ci-size">' + c.size + '</div>' +
@@ -546,7 +506,7 @@
   function openModal(id) {
     const p = PRODUCTS.find(x => x.id === id);
     modalState = { id: id, qty: 1, size: p.size };
-    document.getElementById("modalVisual").innerHTML = bottleSVG({ shape: p.shape, liquid: p.liquid, cap: p.cap, initial: p.name });
+    document.getElementById("modalVisual").innerHTML = '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + ' — ' + escapeHtml(p.type) + '" decoding="async" width="1280" height="1280">';
     renderModalInfo(p);
     document.getElementById("modalOverlay").classList.add("open");
     document.body.style.overflow = "hidden";
@@ -655,8 +615,11 @@
 
   /* ===================== HERO BOTTLE ===================== */
   function renderHero() {
-    document.getElementById("heroBottleWrap").innerHTML = bottleSVG({ shape: "tall", liquid: "#8B5A2B", cap: "#B08D4F", initial: "O" });
+    const hero = PRODUCTS.find(p => p.id === "oud-royale");
+    document.getElementById("heroBottleWrap").innerHTML =
+      '<img src="' + hero.image + '" alt="Oud Royale, the signature Tradfair oud fragrance" decoding="async" fetchpriority="high" width="1280" height="1280">';
   }
+
 
   /* ===================== SEARCH ===================== */
   function openSearch() {

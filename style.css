@@ -599,9 +599,11 @@ section {
 }
 .hero-visual .particle {
   position: absolute;
+  z-index: 2;
   border-radius: 50%;
   background: var(--gold-light);
-  opacity: .55;
+  opacity: .7;
+  box-shadow: 0 0 6px 1px rgba(217, 191, 140, .5);
   animation: float 7s ease-in-out infinite;
 }
 @keyframes float {
@@ -616,18 +618,25 @@ section {
 .hero-bottle-wrap {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14% 20%;
+  z-index: 0;
+  overflow: hidden;
 }
-.hero-bottle-wrap svg {
+.hero-bottle-wrap img {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .45));
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(16, 13, 10, .12) 0%, rgba(16, 13, 10, .38) 55%, rgba(16, 13, 10, .82) 100%);
 }
 .hero-float-card {
   position: absolute;
+  z-index: 3;
   left: 20px;
   bottom: 20px;
   right: 20px;
@@ -909,20 +918,17 @@ section {
 .pc-visual {
   position: relative;
   aspect-ratio: 1/1;
-  background: radial-gradient(circle at 50% 38%, #FBF7EF 0%, var(--cream-2) 72%, #E7DBC0 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14%;
+  background: var(--cream-2);
 }
-.pc-visual .bottle-svg {
+.pc-visual .pc-img {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 14px 16px rgba(90, 70, 40, .16));
+  object-fit: cover;
+  display: block;
   transition: transform .4s var(--ease);
 }
-.product-card:hover .pc-visual .bottle-svg {
-  transform: translateY(-4px) scale(1.03);
+.product-card:hover .pc-visual .pc-img {
+  transform: scale(1.06);
 }
 .pc-badges {
   position: absolute;
@@ -1789,13 +1795,15 @@ section {
   width: 64px;
   height: 64px;
   border-radius: var(--radius-sm);
-  background: radial-gradient(circle at 50% 35%, #FBF7EF, #E7DBC0);
+  overflow: hidden;
+  background: var(--cream-2);
   flex-shrink: 0;
-  padding: 8px;
 }
-.ci-thumb svg {
+.ci-thumb img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .cart-item .ci-body {
   flex: 1;
@@ -1935,17 +1943,16 @@ section {
   height: 17px;
 }
 .modal-visual {
-  background: radial-gradient(circle at 50% 32%, #FBF7EF, #E7DBC0);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14%;
+  position: relative;
+  overflow: hidden;
+  background: var(--cream-2);
   min-height: 320px;
 }
-.modal-visual .bottle-svg {
+.modal-visual img {
   width: 100%;
-  max-width: 280px;
-  filter: drop-shadow(0 20px 24px rgba(90, 70, 40, .2));
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .modal-info {
   padding: 36px 34px;
@@ -2109,18 +2116,8 @@ section {
   }
 
   .modal-visual {
-    min-height: 140px;
-    height: 140px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modal-visual .bottle-svg {
-    width: 180px;
-    max-width: 180px;
-    max-height: 130px;
+    min-height: 220px;
+    height: 220px;
   }
 
   .modal-info {
